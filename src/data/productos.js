@@ -205,3 +205,8 @@ export function obtenerRelacionados(producto) {
     (p) => p.categoria === producto.categoria && p.codigo !== producto.codigo,
   )
 }
+
+// Primeros 4 productos del catálogo, mostrados como destacados en Home
+export function obtenerDestacados() {
+  return productos.slice(0, 4)
+}
