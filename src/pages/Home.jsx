@@ -8,7 +8,7 @@ function Home() {
 
   return (
     <Container as="main" className="py-4">
-      <section className="hero">
+      <section className="hero text-center py-5">
         <h1>Bienvenido a Distribuidora de gas "El Volcán"</h1>
         <p>
           Cilindros de gas, reguladores, mangueras y accesorios, con despacho a
