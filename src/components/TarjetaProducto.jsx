@@ -1,11 +1,20 @@
 import { Button, Card } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import ImagenProducto from './ImagenProducto'
+import { useCarrito } from '../context/useCarrito'
 import { formatearPrecio } from '../utils/formatearPrecio'
 import './TarjetaProducto.css'
 
 // conBotonAnadir permite ocultar "Añadir" (por ejemplo, en productos relacionados)
 function TarjetaProducto({ producto, conBotonAnadir = true }) {
+  const { agregarAlCarrito } = useCarrito()
+
+  // Agrega 1 unidad del producto y avisa el resultado
+  function manejarAnadir() {
+    const mensaje = agregarAlCarrito(producto.codigo, 1)
+    alert(mensaje)
+  }
+
   return (
     <Card className="tarjeta-producto h-100">
       <Card.Body className="d-flex flex-column">
@@ -22,8 +31,7 @@ function TarjetaProducto({ producto, conBotonAnadir = true }) {
             Ver detalle
           </Button>
           {conBotonAnadir && (
-            // TODO: implementar al migrar el carrito
-            <Button type="button" variant="primary">
+            <Button type="button" variant="primary" onClick={manejarAnadir}>
               Añadir
             </Button>
           )}
