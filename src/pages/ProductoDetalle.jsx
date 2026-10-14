@@ -7,12 +7,41 @@ import { useCarrito } from '../context/useCarrito'
 import { obtenerProducto, obtenerRelacionados } from '../data/productos'
 import { formatearPrecio } from '../utils/formatearPrecio'
 
-function ProductoDetalle() {
-  const { codigo } = useParams()
-  const producto = obtenerProducto(codigo)
+// Campo "Cantidad" + botón "Añadir al carrito".
+// ProductoDetalle lo usa con key={producto.codigo}: al cambiar de producto, React crea
+// un formulario nuevo y la cantidad vuelve a 1.
+function FormularioCantidad({ producto }) {
   const { agregarAlCarrito } = useCarrito()
   // Lo que el usuario escribe en el campo "Cantidad" (texto, se convierte al agregar)
   const [cantidad, setCantidad] = useState('1')
+
+  // Agrega la cantidad escrita al carrito y avisa el resultado
+  function manejarAnadir(evento) {
+    evento.preventDefault() // evita que el formulario recargue la página (ej: al apretar Enter)
+    const mensaje = agregarAlCarrito(producto.codigo, Number(cantidad))
+    alert(mensaje)
+  }
+
+  return (
+    <Form className="d-flex align-items-center gap-2" onSubmit={manejarAnadir}>
+      <Form.Label htmlFor="inputCantidad" className="mb-0">Cantidad:</Form.Label>
+      <Form.Control
+        id="inputCantidad"
+        type="number"
+        value={cantidad}
+        onChange={(evento) => setCantidad(evento.target.value)}
+        min={1}
+        max={producto.stock}
+        style={{ width: '90px' }}
+      />
+      <Button type="submit" variant="primary">Añadir al carrito</Button>
+    </Form>
+  )
+}
+
+function ProductoDetalle() {
+  const { codigo } = useParams()
+  const producto = obtenerProducto(codigo)
 
   if (!producto) {
     return (
@@ -25,13 +54,6 @@ function ProductoDetalle() {
   }
 
   const relacionados = obtenerRelacionados(producto)
-
-  // Agrega la cantidad escrita al carrito y avisa el resultado
-  function manejarAnadir(evento) {
-    evento.preventDefault() // evita que el formulario recargue la página (ej: al apretar Enter)
-    const mensaje = agregarAlCarrito(producto.codigo, Number(cantidad))
-    alert(mensaje)
-  }
 
   return (
     <Container as="main" className="py-4">
@@ -53,19 +75,7 @@ function ProductoDetalle() {
           </p>
           <p>{producto.descripcion}</p>
 
-          <Form className="d-flex align-items-center gap-2" onSubmit={manejarAnadir}>
-            <Form.Label htmlFor="inputCantidad" className="mb-0">Cantidad:</Form.Label>
-            <Form.Control
-              id="inputCantidad"
-              type="number"
-              value={cantidad}
-              onChange={(evento) => setCantidad(evento.target.value)}
-              min={1}
-              max={producto.stock}
-              style={{ width: '90px' }}
-            />
-            <Button type="submit" variant="primary">Añadir al carrito</Button>
-          </Form>
+          <FormularioCantidad key={producto.codigo} producto={producto} />
         </Col>
       </Row>
 
