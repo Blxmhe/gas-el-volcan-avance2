@@ -60,8 +60,40 @@ export function CarritoProvider({ children }) {
     return 'Producto agregado al carrito'
   }
 
+  // Elimina por completo un producto del carrito
+  function quitarDelCarrito(codigo) {
+    setCarrito(carrito.filter((item) => item.codigo !== codigo))
+  }
+
+  // Cambia la cantidad de un producto ya agregado; si la nueva cantidad es 0 o menos, lo quita.
+  // Devuelve un mensaje de error si no hay stock, o null si todo salió bien.
+  function actualizarCantidad(codigo, nuevaCantidad) {
+    if (nuevaCantidad <= 0) {
+      quitarDelCarrito(codigo)
+      return null
+    }
+
+    const producto = obtenerProducto(codigo)
+    if (producto === undefined) {
+      return 'Producto no encontrado'
+    }
+
+    if (nuevaCantidad > producto.stock) {
+      return `No hay suficiente stock. Disponible: ${producto.stock}`
+    }
+
+    setCarrito(
+      carrito.map((item) =>
+        item.codigo === codigo ? { ...item, cantidad: nuevaCantidad } : item,
+      ),
+    )
+    return null
+  }
+
   return (
-    <CarritoContext value={{ carrito, totalUnidades, agregarAlCarrito }}>
+    <CarritoContext
+      value={{ carrito, totalUnidades, agregarAlCarrito, quitarDelCarrito, actualizarCantidad }}
+    >
       {children}
     </CarritoContext>
   )
