@@ -1,4 +1,4 @@
-import React from "react";
+ï»¿import React from "react";
 import { Link } from "react-router-dom";
 
 export default function Blogs() {
@@ -11,22 +11,22 @@ export default function Blogs() {
         <div className="card-body">
           <h4 className="card-title text-danger fw-bold">Consejos de seguridad con el gas</h4>
           <p className="card-text">
-            ¿Sabías que el gas no tiene olor? Te explicamos por qué huele y qué hacer ante una fuga.
+            Â¿SabÃ­as que el gas no tiene olor? Te explicamos por quÃ© huele y quÃ© hacer ante una fuga.
           </p>
           <Link to="/blogs/1" className="btn btn-outline-danger">
-            Leer más &rarr;
+            Leer mÃ¡s &rarr;
           </Link>
         </div>
       </div>
 
       <div className="card mb-4 shadow-sm">
         <div className="card-body">
-          <h4 className="card-title text-danger fw-bold">¿Cómo ahorrar gas en invierno?</h4>
+          <h4 className="card-title text-danger fw-bold">Â¿CÃ³mo ahorrar gas en invierno?</h4>
           <p className="card-text">
-            4 consejos simples para que tu balón de gas dure hasta 30% más.
+            4 consejos simples para que tu balÃ³n de gas dure hasta 30% mÃ¡s.
           </p>
           <Link to="/blogs/2" className="btn btn-outline-danger">
-            Leer más &rarr;
+            Leer mÃ¡s &rarr;
           </Link>
         </div>
       </div>
