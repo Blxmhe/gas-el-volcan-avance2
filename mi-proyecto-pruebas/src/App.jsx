@@ -1,8 +1,17 @@
-// src/App.jsx
-import React, { useState } from 'react';
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-// Importación de las páginas creadas
+// Contexto y Componentes compartidos del equipo
+import { CarritoProvider } from './context/CarritoContext';
+import Menu from './components/Menu';
+import PiePagina from './components/PiePagina';
+
+// Páginas principales y del equipo
+import Home from './pages/Home';
+import ProductoDetalle from './pages/ProductoDetalle';
+
+// Tus Importaciones (Institucional, Blog y Admin)
 import Nosotros from './pages/Nosotros';
 import Blogs from './pages/Blogs';
 import BlogDetalle1 from './pages/BlogDetalle1';
@@ -12,43 +21,28 @@ import AdminProductos from './pages/admin/AdminProductos';
 import AdminUsuarios from './pages/admin/AdminUsuarios';
 
 export default function App() {
-  const [pagina, setPagina] = useState('nosotros');
-
-  const renderPagina = () => {
-    switch (pagina) {
-      case 'nosotros':
-        return <Nosotros />;
-      case 'blogs':
-        return <Blogs setPagina={setPagina} />;
-      case 'blog-detalle-1':
-        return <BlogDetalle1 setPagina={setPagina} />;
-      case 'blog-detalle-2':
-        return <BlogDetalle2 setPagina={setPagina} />;
-      case 'admin-home':
-        return <AdminHome setPagina={setPagina} />;
-      case 'admin-productos':
-        return <AdminProductos setPagina={setPagina} />;
-      case 'admin-usuarios':
-        return <AdminUsuarios setPagina={setPagina} />;
-      default:
-        return <Nosotros />;
-    }
-  };
-
   return (
-    <div>
-      {/* Menú de navegación rápido para probar todas tus vistas */}
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-3 mb-3">
-        <span className="navbar-brand">Gas El Volcán</span>
-        <div className="navbar-nav">
-          <button className="nav-link btn btn-link" onClick={() => setPagina('nosotros')}>Nosotros</button>
-          <button className="nav-link btn btn-link" onClick={() => setPagina('blogs')}>Blogs</button>
-          <button className="nav-link btn btn-link text-warning" onClick={() => setPagina('admin-home')}>Panel Admin</button>
-        </div>
-      </nav>
+    <CarritoProvider>
+      <Menu />
+      
+      <main className="container my-4">
+        <Routes>
+          {/* Rutas compartidas de tu equipo */}
+          <Route path="/" element={<Home />} />
+          <Route path="/producto/:id" element={<ProductoDetalle />} />
 
-      {/* Renderizado de la vista según la página activa */}
-      {renderPagina()}
-    </div>
+          {/* Tus Rutas */}
+          <Route path="/nosotros" element={<Nosotros />} />
+          <Route path="/blogs" element={<Blogs />} />
+          <Route path="/blogs/1" element={<BlogDetalle1 />} />
+          <Route path="/blogs/2" element={<BlogDetalle2 />} />
+          <Route path="/admin" element={<AdminHome />} />
+          <Route path="/admin/productos" element={<AdminProductos />} />
+          <Route path="/admin/usuarios" element={<AdminUsuarios />} />
+        </Routes>
+      </main>
+
+      <PiePagina />
+    </CarritoProvider>
   );
 }
