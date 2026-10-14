@@ -1,41 +1,35 @@
-// src/pages/Blogs.jsx
-import React from 'react';
-import { Container, Row, Col, Card, Button } from 'react-bootstrap';
+import React from "react";
+import { Link } from "react-router-dom";
 
-export default function Blogs({ setPagina }) {
-  const articulos = [
-    {
-      id: 'blog-detalle-1',
-      titulo: 'Consejos de seguridad con el gas',
-      descripcion: 'Â¿SabÃ­as que el gas no tiene olor? Te explicamos por quÃ© huele y quÃ© hacer ante una fuga.',
-    },
-    {
-      id: 'blog-detalle-2',
-      titulo: 'Â¿CÃ³mo ahorrar gas en invierno?',
-      descripcion: '4 consejos simples para que tu balÃ³n de gas dure hasta 30% mÃ¡s.',
-    },
-  ];
-
+export default function Blogs() {
   return (
-    <Container className="my-5">
-      <h1 className="mb-2">Nuestro Blog</h1>
+    <div className="container my-5">
+      <h2 className="fw-bold mb-1">Nuestro Blog</h2>
       <p className="text-muted mb-4">Consejos, seguridad y ahorro para tu hogar.</p>
 
-      <Row className="g-4">
-        {articulos.map((art) => (
-          <Col md={6} key={art.id}>
-            <Card className="h-100 shadow-sm">
-              <Card.Body>
-                <Card.Title className="text-danger">{art.titulo}</Card.Title>
-                <Card.Text>{art.descripcion}</Card.Text>
-                <Button variant="outline-danger" onClick={() => setPagina(art.id)}>
-                  Leer mÃ¡s â†’
-                </Button>
-              </Card.Body>
-            </Card>
-          </Col>
-        ))}
-      </Row>
-    </Container>
+      <div className="card mb-4 shadow-sm">
+        <div className="card-body">
+          <h4 className="card-title text-danger fw-bold">Consejos de seguridad con el gas</h4>
+          <p className="card-text">
+            ¿Sabías que el gas no tiene olor? Te explicamos por qué huele y qué hacer ante una fuga.
+          </p>
+          <Link to="/blogs/1" className="btn btn-outline-danger">
+            Leer más &rarr;
+          </Link>
+        </div>
+      </div>
+
+      <div className="card mb-4 shadow-sm">
+        <div className="card-body">
+          <h4 className="card-title text-danger fw-bold">¿Cómo ahorrar gas en invierno?</h4>
+          <p className="card-text">
+            4 consejos simples para que tu balón de gas dure hasta 30% más.
+          </p>
+          <Link to="/blogs/2" className="btn btn-outline-danger">
+            Leer más &rarr;
+          </Link>
+        </div>
+      </div>
+    </div>
   );
 }
