@@ -1,7 +1,7 @@
-import React from 'react';
 import { Container, Card, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
-export default function BlogDetalle1({ setPagina }) {
+export default function BlogDetalle1() {
   return (
     <Container className="my-5" style={{ maxWidth: '800px' }}>
       <Card className="shadow-sm p-4">
@@ -16,7 +16,7 @@ export default function BlogDetalle1({ setPagina }) {
           <p>
             En <strong>Gas El Volcán</strong>, todos nuestros balones pasan por 3 rigurosos controles de seguridad antes de ser distribuidos.
           </p>
-          <Button variant="secondary" className="mt-3" onClick={() => setPagina('blogs')}>
+          <Button variant="secondary" className="mt-3" as={Link} to="/blogs">
             ← Volver a Blogs
           </Button>
         </Card.Body>
