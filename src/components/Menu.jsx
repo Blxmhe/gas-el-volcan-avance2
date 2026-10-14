@@ -1,6 +1,6 @@
 import { Container, Nav, Navbar } from 'react-bootstrap'
 import { Link, NavLink } from 'react-router-dom'
-import { useCarrito } from '../context/CarritoContext'
+import { useCarrito } from '../context/useCarrito'
 import logo from '../assets/logo.jpg'
 import './Menu.css'
 

@@ -1,13 +1,18 @@
 import { Breadcrumb, Button, Col, Container, Form, Row } from 'react-bootstrap'
+import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import ImagenProducto from '../components/ImagenProducto'
 import TarjetaProducto from '../components/TarjetaProducto'
+import { useCarrito } from '../context/useCarrito'
 import { obtenerProducto, obtenerRelacionados } from '../data/productos'
 import { formatearPrecio } from '../utils/formatearPrecio'
 
 function ProductoDetalle() {
   const { codigo } = useParams()
   const producto = obtenerProducto(codigo)
+  const { agregarAlCarrito } = useCarrito()
+  // Lo que el usuario escribe en el campo "Cantidad" (texto, se convierte al agregar)
+  const [cantidad, setCantidad] = useState('1')
 
   if (!producto) {
     return (
@@ -20,6 +25,13 @@ function ProductoDetalle() {
   }
 
   const relacionados = obtenerRelacionados(producto)
+
+  // Agrega la cantidad escrita al carrito y avisa el resultado
+  function manejarAnadir(evento) {
+    evento.preventDefault() // evita que el formulario recargue la página (ej: al apretar Enter)
+    const mensaje = agregarAlCarrito(producto.codigo, Number(cantidad))
+    alert(mensaje)
+  }
 
   return (
     <Container as="main" className="py-4">
@@ -41,17 +53,18 @@ function ProductoDetalle() {
           </p>
           <p>{producto.descripcion}</p>
 
-          <Form className="d-flex align-items-center gap-2">
+          <Form className="d-flex align-items-center gap-2" onSubmit={manejarAnadir}>
             <Form.Label htmlFor="inputCantidad" className="mb-0">Cantidad:</Form.Label>
             <Form.Control
               id="inputCantidad"
               type="number"
-              defaultValue={1}
+              value={cantidad}
+              onChange={(evento) => setCantidad(evento.target.value)}
               min={1}
+              max={producto.stock}
               style={{ width: '90px' }}
             />
-            {/* TODO: implementar al migrar el carrito */}
-            <Button type="button" variant="primary">Añadir al carrito</Button>
+            <Button type="submit" variant="primary">Añadir al carrito</Button>
           </Form>
         </Col>
       </Row>
