@@ -1,43 +1,33 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { CarritoProvider } from './context/CarritoContext'
-import Menu from './components/Menu'
-import PiePagina from './components/PiePagina'
-import Home from './pages/Home'
-import Productos from './pages/Productos'
-import ProductoDetalle from './pages/ProductoDetalle'
-import Nosotros from './pages/Nosotros'
-import Blogs from './pages/Blogs'
-import Contacto from './pages/Contacto'
-import Login from './pages/Login'
-import Registro from './pages/Registro'
-import Carrito from './pages/Carrito'
-import './App.css'
+import { Routes, Route } from 'react-router-dom';
+
+// Componentes generales
+import Home from './pages/Home';
+import Blogs from './pages/Blogs';
+import BlogDetalle1 from './pages/BlogDetalle1';
+import BlogDetalle2 from './pages/BlogDetalle2';
+
+// Componentes de Administración
+import AdminLayout from './components/AdminLayout';
+import AdminProductos from './pages/admin/AdminProductos';
+import AdminUsuarios from './pages/admin/AdminUsuarios';
 
 function App() {
   return (
-    <CarritoProvider>
-      <BrowserRouter>
-        {/* min-vh-100 + flex-grow-1: el footer queda abajo aunque la página tenga poco contenido */}
-        <div className="d-flex flex-column min-vh-100">
-          <Menu />
-          <div className="flex-grow-1">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/productos" element={<Productos />} />
-              <Route path="/productos/:codigo" element={<ProductoDetalle />} />
-              <Route path="/nosotros" element={<Nosotros />} />
-              <Route path="/blogs" element={<Blogs />} />
-              <Route path="/contacto" element={<Contacto />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/registro" element={<Registro />} />
-              <Route path="/carrito" element={<Carrito />} />
-            </Routes>
-          </div>
-          <PiePagina />
-        </div>
-      </BrowserRouter>
-    </CarritoProvider>
-  )
+    <Routes>
+      {/* Rutas Principales */}
+      <Route path="/" element={<Home />} />
+      <Route path="/blogs" element={<Blogs />} />
+
+      {/* Punto 1: Rutas de detalle de Blogs */}
+      <Route path="/blogs/1" element={<BlogDetalle1 />} />
+      <Route path="/blogs/2" element={<BlogDetalle2 />} />
+
+      {/* Punto 1: Rutas del Panel de Administración */}
+      <Route path="/admin" element={<AdminLayout />} />
+      <Route path="/admin/productos" element={<AdminProductos />} />
+      <Route path="/admin/usuarios" element={<AdminUsuarios />} />
+    </Routes>
+  );
 }
 
-export default App
+export default App;

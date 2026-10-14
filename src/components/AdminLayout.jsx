@@ -1,41 +1,41 @@
-// src/components/AdminLayout.jsx
-import React from 'react';
+import { NavLink, Outlet } from 'react-router-dom';
 import '../styles/admin.css';
 
-export default function AdminLayout({ children, paginaActual, setPagina }) {
+export default function AdminLayout({ children }) {
   return (
     <div className="admin-layout">
       <aside className="admin-sidebar">
         <h4>Panel Admin</h4>
         <ul className="admin-menu">
           <li>
-            <button
-              className={paginaActual === 'admin-home' ? 'active' : ''}
-              onClick={() => setPagina('admin-home')}
+            <NavLink
+              to="/admin"
+              end
+              className={({ isActive }) => (isActive ? 'active' : '')}
             >
               Dashboard
-            </button>
+            </NavLink>
           </li>
           <li>
-            <button
-              className={paginaActual === 'admin-productos' ? 'active' : ''}
-              onClick={() => setPagina('admin-productos')}
+            <NavLink
+              to="/admin/productos"
+              className={({ isActive }) => (isActive ? 'active' : '')}
             >
               Productos
-            </button>
+            </NavLink>
           </li>
           <li>
-            <button
-              className={paginaActual === 'admin-usuarios' ? 'active' : ''}
-              onClick={() => setPagina('admin-usuarios')}
+            <NavLink
+              to="/admin/usuarios"
+              className={({ isActive }) => (isActive ? 'active' : '')}
             >
               Usuarios
-            </button>
+            </NavLink>
           </li>
         </ul>
       </aside>
       <main className="admin-content">
-        {children}
+        {children || <Outlet />}
       </main>
     </div>
   );

@@ -1,5 +1,4 @@
 // src/pages/admin/AdminUsuarios.jsx
-import React from 'react';
 import { Table, Button } from 'react-bootstrap';
 import AdminLayout from '../../components/AdminLayout';
 import { usuariosPrueba } from '../../data/usuarios';
