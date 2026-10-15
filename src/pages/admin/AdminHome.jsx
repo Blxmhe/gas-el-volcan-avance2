@@ -1,4 +1,3 @@
-// src/pages/admin/AdminHome.jsx
 import { Row, Col, Card } from 'react-bootstrap';
 import AdminLayout from '../../components/AdminLayout';
 import { productos } from '../../data/productos';
