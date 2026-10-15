@@ -3,9 +3,9 @@ import { Table, Button } from 'react-bootstrap';
 import AdminLayout from '../../components/AdminLayout';
 import { usuariosPrueba } from '../../data/usuarios';
 
-export default function AdminUsuarios({ setPagina }) {
+export default function AdminUsuarios() {
   return (
-    <AdminLayout paginaActual="admin-usuarios" setPagina={setPagina}>
+    <AdminLayout paginaActual="admin-usuarios">
       <h2>Gestión de Usuarios</h2>
       <Table striped bordered hover responsive className="table-admin mt-3">
         <thead className="table-dark">
