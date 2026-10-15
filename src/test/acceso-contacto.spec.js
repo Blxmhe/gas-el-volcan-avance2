@@ -6,7 +6,7 @@
 import { validarRUN } from '../utils/validacionRun';
 import { loginUsuario } from '../data/usuarios';
 
-describe("Pruebas Unitarias - Módulo de Acceso y Contacto (Nicolás Delgado)", () => {
+describe("Pruebas Unitarias - Modulo de Acceso y Contacto (Nicolás Delgado)", () => {
 
   beforeEach(() => {
     localStorage.clear();
