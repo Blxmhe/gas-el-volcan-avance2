@@ -1,5 +1,6 @@
 import { Container, Nav, Navbar } from 'react-bootstrap'
 import { Link, NavLink } from 'react-router-dom'
+import { useCarrito } from '../context/useCarrito'
 import logo from '../assets/logo.jpg'
 import './Menu.css'
 
@@ -12,6 +13,8 @@ const enlacesPrincipales = [
 ]
 
 function Menu() {
+  const { totalUnidades } = useCarrito()
+
   return (
     <Navbar expand="lg" className="menu">
       <Container fluid>
@@ -39,7 +42,7 @@ function Menu() {
               Registrar usuario
             </Nav.Link>
             <Nav.Link as={NavLink} to="/carrito" className="btn-carrito">
-              🛒 Cart (0)
+              🛒 Cart ({totalUnidades})
             </Nav.Link>
           </Nav>
         </Navbar.Collapse>

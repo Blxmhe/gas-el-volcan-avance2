@@ -1,6 +1,4 @@
 // Catálogo de productos de la Distribuidora Gas El Volcán.
-// Migrado desde js/productos-data.js del proyecto original. Mientras no exista
-// una base de datos, este arreglo es la única fuente de datos de productos.
 import abrazaderaMetalica from '../assets/abrazadera-metalica.jpg'
 import carroGas from '../assets/carro-gas.jpg'
 import cilindro5kg from '../assets/cilindro-5kg.jpg'
@@ -187,7 +185,6 @@ export const productos = [
   },
 ]
 
-// Ícono de respaldo por categoría, usado cuando un producto no tiene imagen asignada
 export const ICONOS_POR_CATEGORIA = {
   'Cilindros de Gas': '🔥',
   'Reguladores': '🔧',
@@ -199,9 +196,12 @@ export function obtenerProducto(codigo) {
   return productos.find((p) => p.codigo === codigo)
 }
 
-// Productos de la misma categoría, excluyendo el producto indicado
 export function obtenerRelacionados(producto) {
   return productos.filter(
     (p) => p.categoria === producto.categoria && p.codigo !== producto.codigo,
   )
+}
+
+export function obtenerDestacados() {
+  return productos.slice(0, 4)
 }
