@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { productos } from '../data/productos';
-import { obtenerUsuarios } from '../data/usuarios';
+import { productos } from '../../data/productos';
+import { obtenerUsuarios } from '../../data/usuarios';
 
 const AdminHome = () => {
   // Obtenemos los conteos dinámicos
