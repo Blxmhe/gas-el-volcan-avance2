@@ -16,6 +16,10 @@ import Carrito from './pages/Carrito'
 import AdminHome from './pages/admin/AdminHome'
 import AdminProductos from './pages/admin/AdminProductos'
 import AdminUsuarios from './pages/admin/AdminUsuarios'
+import ProductoNuevo from './pages/admin/ProductoNuevo'
+import ProductoEditar from './pages/admin/ProductoEditar'
+import UsuarioNuevo from './pages/admin/UsuarioNuevo'
+import UsuarioEditar from './pages/admin/UsuarioEditar'
 import './App.css'
 
 // El BrowserRouter vive en main.jsx
@@ -41,6 +45,10 @@ function App() {
             <Route path="/admin" element={<AdminHome />} />
             <Route path="/admin/productos" element={<AdminProductos />} />
             <Route path="/admin/usuarios" element={<AdminUsuarios />} />
+            <Route path="/admin/productos/nuevo" element={<ProductoNuevo />} />
+            <Route path="/admin/productos/editar/:codigo" element={<ProductoEditar />} />
+            <Route path="/admin/usuarios/nuevo" element={<UsuarioNuevo />} />
+            <Route path="/admin/usuarios/editar/:run" element={<UsuarioEditar />} />
           </Routes>
         </div>
         <PiePagina />
