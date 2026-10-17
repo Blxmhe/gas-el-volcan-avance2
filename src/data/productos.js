@@ -191,17 +191,3 @@ export const ICONOS_POR_CATEGORIA = {
   'Mangueras y Conexiones': '🔌',
   'Accesorios': '🛠️',
 }
-
-export function obtenerProducto(codigo) {
-  return productos.find((p) => p.codigo === codigo)
-}
-
-export function obtenerRelacionados(producto) {
-  return productos.filter(
-    (p) => p.categoria === producto.categoria && p.codigo !== producto.codigo,
-  )
-}
-
-export function obtenerDestacados() {
-  return productos.slice(0, 4)
-}

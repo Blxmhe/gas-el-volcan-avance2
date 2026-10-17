@@ -1,8 +1,9 @@
 import { Col, Container, Row } from 'react-bootstrap'
 import TarjetaProducto from '../components/TarjetaProducto'
-import { productos } from '../data/productos'
+import { obtenerProductos } from '../services/productosService'
 
 function Productos() {
+  const productos = obtenerProductos()
   return (
     <Container as="main" className="py-4">
       <h1 className="mb-4">Nuestros Productos</h1>

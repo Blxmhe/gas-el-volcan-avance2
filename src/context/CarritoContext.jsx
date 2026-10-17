@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { CarritoContext } from './useCarrito'
-import { obtenerProducto } from '../data/productos'
+import { buscarProducto } from '../services/productosService'
 
 // Lee el carrito guardado en localStorage; si no hay nada, devuelve un arreglo vacío
 function obtenerCarritoGuardado() {
@@ -29,7 +29,7 @@ export function CarritoProvider({ children }) {
   // Agrega una cantidad de un producto al carrito, respetando el stock disponible.
   // Devuelve el mensaje que el componente le muestra al usuario.
   function agregarAlCarrito(codigo, cantidad) {
-    const producto = obtenerProducto(codigo)
+    const producto = buscarProducto(codigo)
     if (producto === undefined) {
       return 'Producto no encontrado'
     }
@@ -73,7 +73,7 @@ export function CarritoProvider({ children }) {
       return null
     }
 
-    const producto = obtenerProducto(codigo)
+    const producto = buscarProducto(codigo)
     if (producto === undefined) {
       return 'Producto no encontrado'
     }
