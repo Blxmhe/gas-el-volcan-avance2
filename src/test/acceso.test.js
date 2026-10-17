@@ -1,5 +1,4 @@
 /**
- * src/test/acceso-contacto.spec.js
  * Pruebas unitarias con Vitest para el módulo de Acceso (RUN y login)
  */
 import { describe, it, expect, beforeEach } from 'vitest';

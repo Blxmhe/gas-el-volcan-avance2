@@ -13,7 +13,7 @@ import Blogs from '../pages/Blogs';
 import { productos } from '../data/productos';
 import * as usuariosData from '../data/usuarios';
 
-describe('Pruebas de la Parte C (Rosa Meza)', () => {
+describe('Pruebas de Nosotros, Blogs y el dashboard del admin', () => {
   // Prueba 1: Verifica la página Nosotros
   it('debe renderizar la página Nosotros con su título y fundadores', () => {
     render(
