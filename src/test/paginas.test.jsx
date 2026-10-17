@@ -13,7 +13,7 @@ import Blogs from '../pages/Blogs';
 import { productos } from '../data/productos';
 import * as usuariosData from '../data/usuarios';
 
-describe('Pruebas de la Parte C (Rosa Meza)', () => {
+describe('Pruebas de Nosotros, Blogs y el dashboard del admin', () => {
   // Prueba 1: Verifica la página Nosotros
   it('debe renderizar la página Nosotros con su título y fundadores', () => {
     render(
@@ -27,6 +27,8 @@ describe('Pruebas de la Parte C (Rosa Meza)', () => {
 
   // Prueba 2: Verifica que AdminHome muestra las cantidades dinámicas (14 productos y 3 usuarios)
   it('debe mostrar los conteos dinámicos en el AdminHome', () => {
+    // El panel admin está protegido: se simula un administrador con sesión iniciada
+    localStorage.setItem('usuarioActivo', JSON.stringify({ nombre: 'Admin', tipoUsuario: 'Administrador' }));
     render(
       <MemoryRouter>
         <AdminHome />

@@ -1,7 +1,7 @@
 import { Container, Nav, Navbar } from 'react-bootstrap'
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { useCarrito } from '../context/useCarrito'
-import { getUsuarioActivo, logout } from '../data/usuarios'
+import { getUsuarioActivo, logout, puedeAdministrar } from '../data/usuarios'
 import logo from '../assets/logo.jpg'
 import './Menu.css'
 
@@ -21,9 +21,6 @@ function Menu() {
 
   // Se lee en cada render: null si nadie ha iniciado sesión
   const usuario = getUsuarioActivo()
-  const puedeAdministrar =
-    usuario &&
-    (usuario.tipoUsuario === 'Administrador' || usuario.tipoUsuario === 'Vendedor')
 
   function cerrarSesion() {
     logout()
@@ -52,7 +49,7 @@ function Menu() {
           <Nav className="acciones-usuario">
             {usuario ? (
               <>
-                {puedeAdministrar && (
+                {puedeAdministrar(usuario) && (
                   <Nav.Link as={NavLink} to="/admin" className="btn-admin">
                     Ir a Admin
                   </Nav.Link>

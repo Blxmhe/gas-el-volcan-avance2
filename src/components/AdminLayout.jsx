@@ -1,7 +1,18 @@
-import { NavLink, Outlet } from 'react-router-dom';
+import { Navigate, NavLink, Outlet } from 'react-router-dom';
+import { getUsuarioActivo, puedeAdministrar } from '../data/usuarios';
 import '../styles/admin.css';
 
 export default function AdminLayout({ children }) {
+  const usuario = getUsuarioActivo();
+
+  // Sin sesión: va al login. Con sesión pero sin permiso (Cliente): va al inicio.
+  if (!usuario) {
+    return <Navigate to="/login" replace />;
+  }
+  if (!puedeAdministrar(usuario)) {
+    return <Navigate to="/" replace />;
+  }
+  
   return (
     <div className="admin-layout">
       <aside className="admin-sidebar">

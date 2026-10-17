@@ -38,3 +38,16 @@ export function actualizarProducto(codigo, cambios) {
   )
   guardarProductos(lista)
 }
+
+
+// Productos de la misma categoría (para la sección "Relacionados" del detalle)
+export function obtenerRelacionados(producto) {
+  return obtenerProductos().filter(
+    (p) => p.categoria === producto.categoria && p.codigo !== producto.codigo,
+  )
+}
+
+// Los primeros 4 productos (para el Home)
+export function obtenerDestacados() {
+  return obtenerProductos().slice(0, 4)
+}

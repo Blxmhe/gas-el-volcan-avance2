@@ -4,7 +4,7 @@ import { Link, useParams } from 'react-router-dom'
 import ImagenProducto from '../components/ImagenProducto'
 import TarjetaProducto from '../components/TarjetaProducto'
 import { useCarrito } from '../context/useCarrito'
-import { obtenerProducto, obtenerRelacionados } from '../data/productos'
+import { buscarProducto, obtenerRelacionados } from '../services/productosService'
 import { formatearPrecio } from '../utils/formatearPrecio'
 
 // Campo "Cantidad" + botón "Añadir al carrito".
@@ -41,7 +41,7 @@ function FormularioCantidad({ producto }) {
 
 function ProductoDetalle() {
   const { codigo } = useParams()
-  const producto = obtenerProducto(codigo)
+  const producto = buscarProducto(codigo)
 
   if (!producto) {
     return (

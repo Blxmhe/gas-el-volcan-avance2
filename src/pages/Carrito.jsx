@@ -2,7 +2,7 @@ import { Button, Container, Table } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import ImagenProducto from '../components/ImagenProducto'
 import { useCarrito } from '../context/useCarrito'
-import { obtenerProducto } from '../data/productos'
+import { buscarProducto } from '../services/productosService'
 import { formatearPrecio } from '../utils/formatearPrecio'
 import './Carrito.css'
 
@@ -13,7 +13,7 @@ function Carrito() {
   // Si un producto ya no existe en el catálogo, se salta.
   const filas = []
   carrito.forEach((item) => {
-    const producto = obtenerProducto(item.codigo)
+    const producto = buscarProducto(item.codigo)
     if (producto) {
       filas.push({
         producto,
