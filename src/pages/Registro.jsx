@@ -50,7 +50,7 @@ export default function Registro() {
     // 2. Validar formato y dígito verificador del RUN
     const runLimpio = run.trim().toUpperCase();
     if (runLimpio.includes('.') || runLimpio.includes('-')) {
-      setError('El RUN debe ingresarse sin puntos ni guión (ej: 19011022K).');
+      setError('El RUN debe ingresarse sin puntos ni guión (ej: 123456785).');
       return;
     }
 
@@ -129,7 +129,7 @@ export default function Registro() {
                   <input
                     type="text"
                     className="form-control"
-                    placeholder="Ej: 19011022K"
+                    placeholder="Ej: 123456785"
                     maxLength={9}
                     value={run}
                     onChange={(e) => setRun(e.target.value)}
