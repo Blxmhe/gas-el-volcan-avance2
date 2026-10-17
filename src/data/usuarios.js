@@ -92,3 +92,9 @@ export function getUsuarioActivo() {
 export function logout() {
   localStorage.removeItem("usuarioActivo");
 }
+
+
+// 7. PERMISOS: solo Administrador y Vendedor pueden entrar al panel de administración
+export function puedeAdministrar(usuario) {
+  return Boolean(usuario) && (usuario.tipoUsuario === "Administrador" || usuario.tipoUsuario === "Vendedor");
+}

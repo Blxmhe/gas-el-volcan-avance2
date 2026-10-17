@@ -27,6 +27,8 @@ describe('Pruebas de la Parte C (Rosa Meza)', () => {
 
   // Prueba 2: Verifica que AdminHome muestra las cantidades dinámicas (14 productos y 3 usuarios)
   it('debe mostrar los conteos dinámicos en el AdminHome', () => {
+    // El panel admin está protegido: se simula un administrador con sesión iniciada
+    localStorage.setItem('usuarioActivo', JSON.stringify({ nombre: 'Admin', tipoUsuario: 'Administrador' }));
     render(
       <MemoryRouter>
         <AdminHome />
