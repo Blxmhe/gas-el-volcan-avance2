@@ -53,14 +53,16 @@ function Menu() {
             {usuario ? (
               <>
                 {puedeAdministrar && (
-                  <Nav.Link as={NavLink} to="/admin">
+                  <Nav.Link as={NavLink} to="/admin" className="btn-admin">
                     Ir a Admin
                   </Nav.Link>
                 )}
                 <Nav.Link as="span" className="saludo-usuario">
                   👤 {usuario.nombre.split(' ')[0]}
                 </Nav.Link>
-                <Nav.Link onClick={cerrarSesion}>Cerrar sesión</Nav.Link>
+                <Nav.Link onClick={cerrarSesion} className="btn-logout">
+                  Cerrar sesión
+                </Nav.Link>
               </>
             ) : (
               <>

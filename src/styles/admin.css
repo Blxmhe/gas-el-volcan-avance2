@@ -29,19 +29,16 @@
   margin-bottom: 10px;
 }
 
-.admin-menu button {
-  background: none;
-  border: none;
+.admin-menu a {
+  display: block;
   color: #bdc3c7;
-  width: 100%;
-  text-align: left;
+  text-decoration: none;
   padding: 10px 15px;
   border-radius: 4px;
-  cursor: pointer;
 }
 
-.admin-menu button:hover,
-.admin-menu button.active {
+.admin-menu a:hover,
+.admin-menu a.active {
   background-color: #34495e;
   color: #ffffff;
   font-weight: bold;
