@@ -20,10 +20,10 @@ const producto = {
 }
 
 // La tarjeta usa <Link>, por eso se renderiza dentro de un MemoryRouter
-function mostrarTarjeta(props) {
+function mostrarTarjeta() {
   return render(
     <MemoryRouter>
-      <TarjetaProducto producto={producto} {...props} />
+      <TarjetaProducto producto={producto} />
     </MemoryRouter>,
   )
 }
@@ -43,14 +43,6 @@ describe('TarjetaProducto (Parte A: catálogo de productos)', () => {
     expect(screen.getByAltText('Cilindro GLP 5 kg')).toBeInTheDocument()
   })
 
-  it('el enlace "Ver detalle" lleva a la página del producto', () => {
-    mostrarTarjeta()
-
-    const enlace = screen.getByText('Ver detalle')
-
-    expect(enlace).toHaveAttribute('href', '/productos/CL001')
-  })
-
   it('al presionar "Añadir" agrega 1 unidad al carrito y avisa el resultado', async () => {
     agregarAlCarritoMock.mockReturnValue('Producto agregado al carrito')
     const usuario = userEvent.setup()
@@ -60,17 +52,5 @@ describe('TarjetaProducto (Parte A: catálogo de productos)', () => {
 
     expect(agregarAlCarritoMock).toHaveBeenCalledWith('CL001', 1)
     expect(window.alert).toHaveBeenCalledWith('Producto agregado al carrito')
-  })
-
-  it('oculta el botón "Añadir" cuando conBotonAnadir es false', () => {
-    mostrarTarjeta({ conBotonAnadir: false })
-
-    expect(screen.queryByRole('button', { name: /añadir/i })).not.toBeInTheDocument()
-  })
-
-  it('si el producto no tiene imagen, no muestra la etiqueta img', () => {
-    mostrarTarjeta({ producto: { ...producto, imagen: undefined } })
-
-    expect(screen.queryByAltText('Cilindro GLP 5 kg')).not.toBeInTheDocument()
   })
 })

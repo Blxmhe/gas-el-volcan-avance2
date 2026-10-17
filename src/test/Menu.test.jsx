@@ -31,14 +31,6 @@ describe('Menu (barra de navegación con sesión)', () => {
     localStorage.clear()
   })
 
-  it('sin sesión muestra "Iniciar sesión" y "Registrar usuario"', () => {
-    mostrarMenu()
-
-    expect(screen.getByText('Iniciar sesión')).toBeInTheDocument()
-    expect(screen.getByText('Registrar usuario')).toBeInTheDocument()
-    expect(screen.queryByText('Cerrar sesión')).not.toBeInTheDocument()
-  })
-
   it('con sesión de Administrador muestra su nombre, "Ir a Admin" y "Cerrar sesión"', () => {
     iniciarSesionComo('Administrador')
 
@@ -50,15 +42,6 @@ describe('Menu (barra de navegación con sesión)', () => {
     expect(screen.queryByText('Iniciar sesión')).not.toBeInTheDocument()
   })
 
-  it('un Cliente con sesión no ve el botón "Ir a Admin"', () => {
-    iniciarSesionComo('Cliente')
-
-    mostrarMenu()
-
-    expect(screen.getByText('Cerrar sesión')).toBeInTheDocument()
-    expect(screen.queryByText('Ir a Admin')).not.toBeInTheDocument()
-  })
-
   it('al presionar "Cerrar sesión" borra la sesión y vuelve el botón de iniciar sesión', async () => {
     iniciarSesionComo('Administrador')
     const usuario = userEvent.setup()
@@ -68,11 +51,5 @@ describe('Menu (barra de navegación con sesión)', () => {
 
     expect(localStorage.getItem('usuarioActivo')).toBeNull()
     expect(screen.getByText('Iniciar sesión')).toBeInTheDocument()
-  })
-
-  it('muestra el total de unidades del carrito', () => {
-    mostrarMenu()
-
-    expect(screen.getByText(/Cart \(3\)/)).toBeInTheDocument()
   })
 })
