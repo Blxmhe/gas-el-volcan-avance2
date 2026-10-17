@@ -1,13 +1,4 @@
-import React from 'react';
-
 const Nosotros = () => {
-  const fundadores = [
-    { nombre: 'Fundador 1', cargo: 'Director General', imagen: 'https://via.placeholder.com/150' },
-    { nombre: 'Fundador 2', cargo: 'Jefe de Operaciones', imagen: 'https://via.placeholder.com/150' },
-    { nombre: 'Fundador 3', cargo: 'Gerente de Logística', imagen: 'https://via.placeholder.com/150' },
-    { nombre: 'Fundador 4', cargo: 'Coordinador de Servicios', imagen: 'https://via.placeholder.com/150' }
-  ];
-
   return (
     <div className="container py-5">
       {/* Encabezado e Historia */}
@@ -58,20 +49,12 @@ const Nosotros = () => {
 
       {/* Sección: Nuestros Fundadores */}
       <section className="mb-5 text-center">
-        <h2 className="mb-4 fw-bold">Nuestros Fundadores</h2>
-        <div className="row g-4">
-          {fundadores.map((item, idx) => (
-            <div key={idx} className="col-6 col-md-3">
-              <div className="card h-100 border-0 shadow-sm">
-                <img src={item.imagen} className="card-img-top rounded-circle p-3" alt={item.nombre} />
-                <div className="card-body">
-                  <h5 className="card-title fw-bold">{item.nombre}</h5>
-                  <p className="card-text text-muted small">{item.cargo}</p>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+        <h2 className="mb-3 fw-bold">Nuestros Fundadores</h2>
+        <p className="mx-auto" style={{ maxWidth: '750px' }}>
+          Somos una empresa familiar: comenzamos con un camión y la idea de que nadie se quedara sin gas en pleno
+          invierno. Hoy la misma familia sigue al frente del negocio, manteniendo el trato cercano que nos caracteriza
+          desde el primer día.
+        </p>
       </section>
 
       {/* Sección: Nuestro Compromiso */}
@@ -81,6 +64,19 @@ const Nosotros = () => {
           Trabajamos día a día para brindarte un servicio confiable que promueva el bienestar y desarrollo de tu comunidad, manteniendo el enfoque en la sostenibilidad y el servicio humano.
         </p>
       </section>
+
+            {/* Equipo Desarrollador */}
+      <section className="mt-5">
+        <h3 className="fw-bold mb-2">Equipo Desarrollador</h3>
+        <p>Proyecto desarrollado por estudiantes de Ingeniería en Informática de Duoc UC:</p>
+        <ul>
+          <li>Daniel Soto</li>
+          <li>Cristopher Moreno</li>
+          <li>Rosa Meza</li>
+          <li>Nicolás Delgado</li>
+        </ul>
+      </section>
+      
     </div>
   );
 };

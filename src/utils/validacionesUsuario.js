@@ -29,7 +29,7 @@ export function validarUsuario(
   // RUN: solo se valida al crear (al editar queda bloqueado)
   if (!modoEditar) {
     if (!validarRun(run)) {
-      errores.run = 'RUN inválido. Formato: sin puntos ni guion, ej. 19011022K.'
+      errores.run = 'RUN inválido. Formato: sin puntos ni guion, ej. 190110222.'
     } else if (usuariosExistentes.some((u) => String(u.run ?? '').toUpperCase() === run)) {
       errores.run = 'Ya existe un usuario registrado con ese RUN.'
     }

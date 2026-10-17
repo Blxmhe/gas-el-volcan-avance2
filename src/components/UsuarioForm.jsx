@@ -134,7 +134,7 @@ function UsuarioForm({
 
   return (
     <Form onSubmit={manejarEnvio} noValidate>
-      {campo('run', 'RUN', { type: 'text', maxLength: 9, disabled: modoEditar, placeholder: 'Ej: 19011022K' })}
+      {campo('run', 'RUN', { type: 'text', maxLength: 9, disabled: modoEditar, placeholder: 'Ej: 190110222' })}
       {campo('nombre', 'Nombre', { type: 'text', maxLength: 50 })}
       {campo('apellidos', 'Apellidos', { type: 'text', maxLength: 100 })}
       {campo('correo', 'Correo', { type: 'email', maxLength: 100, placeholder: 'ej: cliente@gmail.com' })}
