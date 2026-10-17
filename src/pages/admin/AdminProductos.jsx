@@ -1,11 +1,19 @@
+import { Link } from 'react-router-dom';
 import { Table, Button } from 'react-bootstrap';
 import AdminLayout from '../../components/AdminLayout';
-import { productos } from '../../data/productos';
+import { obtenerProductos } from '../../services/productosService';
 
 export default function AdminProductos() {
+  const productos = obtenerProductos();
+
   return (
     <AdminLayout>
-      <h2>Gestión de Productos</h2>
+      <div className="d-flex justify-content-between align-items-center flex-wrap gap-2">
+        <h2 className="mb-0">Gestión de Productos</h2>
+        <Button as={Link} to="/admin/productos/nuevo" variant="primary">
+          Nuevo producto
+        </Button>
+      </div>
       <Table striped bordered hover responsive className="table-admin mt-3">
         <thead className="table-dark">
           <tr>
@@ -21,10 +29,15 @@ export default function AdminProductos() {
             <tr key={prod.codigo}>
               <td>{prod.codigo}</td>
               <td>{prod.nombre}</td>
-              <td>${prod.precioResidencial.toLocaleString('es-CL')}</td>
+              <td>${Number(prod.precioResidencial).toLocaleString('es-CL')}</td>
               <td>{prod.stock}</td>
               <td>
-                <Button variant="warning" size="sm">
+                <Button
+                  as={Link}
+                  to={`/admin/productos/editar/${prod.codigo}`}
+                  variant="warning"
+                  size="sm"
+                >
                   Editar
                 </Button>
               </td>

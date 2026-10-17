@@ -25,7 +25,7 @@ const usuariosIniciales = [
     telefono: "922222222"
   },
   {
-    run: "19011022K",
+    run: "190110222",
     nombre: "Juan",
     apellidos: "Perez",
     correo: "cliente@gmail.com",
@@ -43,7 +43,7 @@ export function obtenerUsuarios() {
   const guardados = localStorage.getItem("usuarios");
   if (!guardados) {
     localStorage.setItem("usuarios", JSON.stringify(usuariosIniciales));
-    return usuariosIniciales;
+    return [...usuariosIniciales];
   }
   return JSON.parse(guardados);
 }

@@ -1,7 +1,7 @@
 import { Row, Col, Card } from 'react-bootstrap';
 import AdminLayout from '../../components/AdminLayout';
-import { productos } from '../../data/productos';
-import { usuariosPrueba } from '../../data/usuarios';
+import { obtenerProductos } from '../../services/productosService';
+import { obtenerUsuarios } from '../../services/usuariosService';
 
 export default function AdminHome() {
   return (
@@ -14,7 +14,7 @@ export default function AdminHome() {
           <Card className="shadow-sm border-primary">
             <Card.Body>
               <Card.Title>Total de Productos</Card.Title>
-              <h3 className="display-6 text-primary">{productos.length}</h3>
+              <h3 className="display-6 text-primary">{obtenerProductos().length}</h3>
             </Card.Body>
           </Card>
         </Col>
@@ -22,7 +22,7 @@ export default function AdminHome() {
           <Card className="shadow-sm border-success">
             <Card.Body>
               <Card.Title>Total de Usuarios</Card.Title>
-              <h3 className="display-6 text-success">{usuariosPrueba.length}</h3>
+              <h3 className="display-6 text-success">{obtenerUsuarios().length}</h3>
             </Card.Body>
           </Card>
         </Col>

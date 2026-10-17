@@ -1,3 +1,4 @@
+
 /* Estilos del menú migrados desde css/estilos.css del proyecto original */
 
 .menu {
@@ -100,4 +101,40 @@
   .acciones-usuario {
     margin-top: 10px;
   }
+}
+
+/* Usuario con sesión iniciada */
+
+/* Ir a Admin: botón contorneado azul */
+.acciones-usuario .btn-admin {
+  color: var(--color-primario);
+  border: 1px solid var(--color-primario);
+  background-color: white;
+}
+
+.acciones-usuario .btn-admin:hover,
+.acciones-usuario .btn-admin.active {
+  background-color: var(--color-primario);
+  color: white;
+}
+
+/* Nombre del usuario: cajita celeste, no es un botón */
+.acciones-usuario .saludo-usuario {
+  color: var(--color-primario);
+  background-color: #eaf1fb;
+  border: 1px solid var(--color-primario);
+  cursor: default;
+}
+
+/* Cerrar sesión: botón contorneado rojo */
+.acciones-usuario .btn-logout {
+  color: #b02a37;
+  border: 1px solid #b02a37;
+  background-color: white;
+  cursor: pointer;
+}
+
+.acciones-usuario .btn-logout:hover {
+  background-color: #b02a37;
+  color: white;
 }

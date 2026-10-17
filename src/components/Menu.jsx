@@ -1,6 +1,7 @@
 import { Container, Nav, Navbar } from 'react-bootstrap'
-import { Link, NavLink } from 'react-router-dom'
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { useCarrito } from '../context/useCarrito'
+import { getUsuarioActivo, logout } from '../data/usuarios'
 import logo from '../assets/logo.jpg'
 import './Menu.css'
 
@@ -14,6 +15,20 @@ const enlacesPrincipales = [
 
 function Menu() {
   const { totalUnidades } = useCarrito()
+  // Hace que el Menú se vuelva a dibujar cada vez que cambia la página
+  useLocation()
+  const navigate = useNavigate()
+
+  // Se lee en cada render: null si nadie ha iniciado sesión
+  const usuario = getUsuarioActivo()
+  const puedeAdministrar =
+    usuario &&
+    (usuario.tipoUsuario === 'Administrador' || usuario.tipoUsuario === 'Vendedor')
+
+  function cerrarSesion() {
+    logout()
+    navigate('/')
+  }
 
   return (
     <Navbar expand="lg" className="menu">
@@ -35,12 +50,30 @@ function Menu() {
           </Nav>
 
           <Nav className="acciones-usuario">
-            <Nav.Link as={NavLink} to="/login" className="btn-login">
-              Iniciar sesión
-            </Nav.Link>
-            <Nav.Link as={NavLink} to="/registro" className="btn-registro">
-              Registrar usuario
-            </Nav.Link>
+            {usuario ? (
+              <>
+                {puedeAdministrar && (
+                  <Nav.Link as={NavLink} to="/admin" className="btn-admin">
+                    Ir a Admin
+                  </Nav.Link>
+                )}
+                <Nav.Link as="span" className="saludo-usuario">
+                  👤 {usuario.nombre.split(' ')[0]}
+                </Nav.Link>
+                <Nav.Link onClick={cerrarSesion} className="btn-logout">
+                  Cerrar sesión
+                </Nav.Link>
+              </>
+            ) : (
+              <>
+                <Nav.Link as={NavLink} to="/login" className="btn-login">
+                  Iniciar sesión
+                </Nav.Link>
+                <Nav.Link as={NavLink} to="/registro" className="btn-registro">
+                  Registrar usuario
+                </Nav.Link>
+              </>
+            )}
             <Nav.Link as={NavLink} to="/carrito" className="btn-carrito">
               🛒 Cart ({totalUnidades})
             </Nav.Link>

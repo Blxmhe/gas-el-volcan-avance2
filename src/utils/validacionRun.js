@@ -5,7 +5,7 @@ export function validarRUN(runCompleto) {
   }
 
   // Limpiar puntos, guiones y espacios, pasar a mayúsculas
-  const runLimpio = runCompleto.trim().replace(/[\.\-\s]/g, "").toUpperCase();
+  const runLimpio = runCompleto.trim().replace(/[.\-\s]/g, "").toUpperCase();
 
   // Largo permitido: entre 7 y 9 caracteres (ej: 19011022K o 8123456K)
   if (runLimpio.length < 7 || runLimpio.length > 9) {
@@ -32,7 +32,7 @@ export function validarRUN(runCompleto) {
   const resto = suma % 11;
   const dvCalculado = 11 - resto;
 
-  let dvEsperado = "";
+  let dvEsperado;
   if (dvCalculado === 11) {
     dvEsperado = "0";
   } else if (dvCalculado === 10) {
