@@ -1,28 +1,29 @@
 /**
- * src/tests/acceso-contacto.spec.js
- * Pruebas unitarias con Jasmine para el módulo de Acceso, Validación y Contacto
+ * src/test/acceso-contacto.spec.js
+ * Pruebas unitarias con Vitest para el módulo de Acceso, Validación y Contacto
  */
-
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { validarRUN } from '../utils/validacionRun';
 import { registrarUsuario, loginUsuario, obtenerUsuarios } from '../data/usuarios';
 
-describe("=== SUITE DE PRUEBAS UNITARIAS: ACCESO Y CONTACTO (JASMINE) ===", () => {
+describe("=== SUITE DE PRUEBAS UNITARIAS: ACCESO Y CONTACTO (Vitest) ===", () => {
 
   // Limpiar y resetear el entorno antes de cada prueba (Uso de beforeEach)
   beforeEach(() => {
     localStorage.clear();
+    vi.restoreAllMocks();
   });
 
   // CATEGORÍA 1: PRUEBAS DE LÓGICA Y VALIDACIÓN DE NEGOCIO (RUN)
 
   it("Test 1: [Lógica RUN] Debe validar correctamente un RUN chileno con dígito verificador válido", () => {
-    const runValido = "19011022K";
+    const runValido = "123456785";
     const resultado = validarRUN(runValido);
     expect(resultado).toBe(true);
   });
 
   it("Test 2: [Lógica RUN] Debe rechazar un RUN chileno con dígito verificador incorrecto", () => {
-    const runInvalido = "190110220"; // El dígito correcto es K, no 0
+    const runInvalido = "190110220"; // El dígito correcto es 2, no 0
     const resultado = validarRUN(runInvalido);
     expect(resultado).toBe(false);
   });
@@ -39,7 +40,7 @@ describe("=== SUITE DE PRUEBAS UNITARIAS: ACCESO Y CONTACTO (JASMINE) ===", () =
 
   it("Test 4: [Mock DB / CRUD] Debe registrar un nuevo usuario y persistirlo en localStorage", () => {
     const nuevo = {
-      run: "19011022K",
+      run: "123456785",
       nombre: "Nicolás",
       apellidos: "Delgado",
       correo: "nicolas@duoc.cl",
@@ -61,7 +62,7 @@ describe("=== SUITE DE PRUEBAS UNITARIAS: ACCESO Y CONTACTO (JASMINE) ===", () =
 
   it("Test 5: [Mock DB / Validación] No debe permitir registrar un usuario con correo o RUN duplicado", () => {
     const usuarioOriginal = {
-      run: "19011022K",
+      run: "123456785",
       nombre: "Original",
       correo: "duplicado@duoc.cl",
       password: "123"
@@ -70,7 +71,7 @@ describe("=== SUITE DE PRUEBAS UNITARIAS: ACCESO Y CONTACTO (JASMINE) ===", () =
 
     // Intento de duplicar
     const usuarioDuplicado = {
-      run: "19011022K",
+      run: "123456785",
       nombre: "Copia",
       correo: "duplicado@duoc.cl",
       password: "456"
@@ -106,12 +107,12 @@ describe("=== SUITE DE PRUEBAS UNITARIAS: ACCESO Y CONTACTO (JASMINE) ===", () =
 
   it("Test 8: [Mocks y Spies] Debe usar spyOn para verificar que loginUsuario llama a localStorage.setItem al autenticar", () => {
     // Espiar el metodo nativo setItem de localStorage
-    spyOn(localStorage, 'setItem').and.callThrough();
+    vi.spyOn(Storage.prototype, 'setItem');
 
     loginUsuario("admin@duoc.cl", "admin");
 
     // Comprobar que fue llamado con la clave 'usuarioActivo'
-    expect(localStorage.setItem).toHaveBeenCalledWith('usuarioActivo', jasmine.any(String));
+    expect(localStorage.setItem).toHaveBeenCalledWith('usuarioActivo', expect.any(String));
   });
 
   it("Test 9: [Validación de Estado / Formato Correo] Debe validar que los correos terminen solo en @duoc.cl, @profesor.duoc.cl o @gmail.com", () => {
@@ -130,12 +131,12 @@ describe("=== SUITE DE PRUEBAS UNITARIAS: ACCESO Y CONTACTO (JASMINE) ===", () =
 
   it("Test 10: [Mocks y Eventos] Debe simular un evento de registro y verificar el flujo de persistencia completo", () => {
     const mockStorage = {};
-    spyOn(localStorage, 'setItem').and.callFake((key, val) => {
+    vi.spyOn(Storage.prototype, 'setItem').mockImplementation((key, val) => {
       mockStorage[key] = val;
     });
 
     const datosSimulados = {
-      run: "19011022K",
+      run: "123456785",
       nombre: "Prueba Mock",
       apellidos: "Testing",
       correo: "test@gmail.com",
