@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Pedidos - Gas El Volcán</title>
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+    <header>
+        <nav><ul class="menu-principal"><li><a href="index.html">Home</a></li><li><a href="pedidos.html" class="activo">Pedidos</a></li><li><a href="historial.html">Historial</a></li></ul></nav>
+    </header>
+    <main style="padding:20px; max-width:1000px; margin:auto;">
+        <h1>Gestión de Pedidos (MongoDB)</h1>
+        <table style="width:100%; border-collapse: collapse;">
+            <thead><tr style="background:#eee;"><th>ID</th><th>Cliente</th><th>Estado</th><th>Total</th></tr></thead>
+            <tbody id="lista-pedidos"></tbody>
+        </table>
+    </main>
+    <script src="js/pedidos.js"></script>
+</body>
+</html>
