@@ -2,7 +2,7 @@
 
 Tienda online de una distribuidora de gas de Chillán: catálogo de productos, carrito de compras que crea pedidos, registro e inicio de sesión de usuarios, blog y un panel de administración. Es la **Evaluación 3** del proyecto de *Desarrollo Fullstack II (DSY1104)* en Duoc UC: la tienda en **React** (Avance 2) ahora está conectada a un **backend Spring Boot** con autenticación JWT y control de acceso por rol.
 
-Este repositorio es **solo el frontend**. El backend es otra aplicación (carpeta y repositorio aparte, `backend-gas-el-volcan`) que debe estar encendida en `http://localhost:8080` para que la tienda muestre datos. Los productos, usuarios, pedidos y blogs viven en la base de datos del backend; en el navegador solo se guardan la **sesión** (`sesion`) y el **carrito** (`carrito`).
+Este repositorio es **solo el frontend**. El backend es otra aplicación, con su propio repositorio ([backend-gas-el-volcan](https://github.com/Blxmhe/backend-gas-el-volcan)), que debe estar encendida en `http://localhost:8080` para que la tienda muestre datos. Los productos, usuarios, pedidos y blogs viven en la base de datos del backend; en el navegador solo se guardan la **sesión** (`sesion`) y el **carrito** (`carrito`).
 
 ## Tecnologías
 
@@ -92,12 +92,12 @@ Todo el código está en `src/`.
 
 ## Pruebas unitarias
 
-Se usa **Vitest** con React Testing Library. Hay **53 pruebas en 10 archivos** dentro de `src/test/`. Ninguna necesita el backend encendido: los servicios que hablan con la API se reemplazan por simulaciones (mocks).
+Se usa **Vitest** con React Testing Library. Hay **54 pruebas en 10 archivos** dentro de `src/test/`. Ninguna necesita el backend encendido: los servicios que hablan con la API se reemplazan por simulaciones (mocks).
 
 | Archivo | Qué prueba | Pruebas |
 |---|---|---|
 | `acceso.test.js` | Validación del RUN, login, persistencia de la sesión al recargar y cierre de sesión | 7 |
-| `api.test.js` | Interceptores de Axios (token en la cabecera, renovación tras un 401, una sola renovación en paralelo, cierre de sesión si falla) y mensajes de error | 10 |
+| `api.test.js` | Interceptores de Axios (token en la cabecera, renovación tras un 401, una sola renovación en paralelo, cierre de sesión si falla, consulta pública que se repite sin token) y mensajes de error | 11 |
 | `ProtectedRoute.test.jsx` | Redirección sin sesión y por rol (Cliente, Vendedor, Administrador) | 4 |
 | `Carrito.test.jsx` | Botón "Pagar": crea el pedido, error de stock del backend, sin sesión y Vendedor sin permiso | 4 |
 | `CarritoContext.test.jsx` | Agregar productos al carrito, respetar el stock y vaciar el carrito | 4 |
