@@ -1,10 +1,11 @@
 import { Button, Col, Container, Row } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import TarjetaProducto from '../components/TarjetaProducto'
-import { obtenerDestacados } from '../services/productosService'
+import EstadoCarga from '../components/EstadoCarga'
+import { useProductos } from '../context/useProductos'
 
 function Home() {
-  const destacados = obtenerDestacados()
+  const { destacados, cargando, error } = useProductos()
 
   return (
     <Container as="main" className="py-4">
@@ -20,6 +21,7 @@ function Home() {
       </section>
 
       <h2 className="my-4">Productos destacados</h2>
+      <EstadoCarga cargando={cargando} error={error} textoCargando="Cargando productos…" />
       <Row xs={1} sm={2} md={3} lg={4} className="g-3">
         {destacados.map((producto) => (
           <Col key={producto.codigo}>

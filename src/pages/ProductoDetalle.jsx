@@ -4,7 +4,8 @@ import { Link, useParams } from 'react-router-dom'
 import ImagenProducto from '../components/ImagenProducto'
 import TarjetaProducto from '../components/TarjetaProducto'
 import { useCarrito } from '../context/useCarrito'
-import { buscarProducto, obtenerRelacionados } from '../services/productosService'
+import EstadoCarga from '../components/EstadoCarga'
+import { useProductos } from '../context/useProductos'
 import { formatearPrecio } from '../utils/formatearPrecio'
 
 // Campo "Cantidad" + botón "Añadir al carrito".
@@ -41,7 +42,17 @@ function FormularioCantidad({ producto }) {
 
 function ProductoDetalle() {
   const { codigo } = useParams()
+  const { buscarProducto, obtenerRelacionados, cargando, error } = useProductos()
   const producto = buscarProducto(codigo)
+
+  // Mientras llega el catálogo (o si falló la carga) todavía no se puede decir que no existe
+  if (!producto && (cargando || error)) {
+    return (
+      <Container as="main" className="py-4">
+        <EstadoCarga cargando={cargando} error={error} textoCargando="Cargando producto…" />
+      </Container>
+    )
+  }
 
   if (!producto) {
     return (
