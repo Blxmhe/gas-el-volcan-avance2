@@ -1,46 +1,51 @@
-import { Navigate, NavLink, Outlet } from 'react-router-dom';
-import { getUsuarioActivo, puedeAdministrar } from '../data/usuarios';
+import { NavLink, Outlet } from 'react-router-dom';
+import { useAuth } from '../context/useAuth';
 import '../styles/admin.css';
 
+// Marco del panel de administración (menú lateral + contenido).
+// Quién puede entrar lo decide ProtectedRoute en App.jsx; aquí solo se decide
+// qué enlaces ve cada rol:
+//   - Administrador: Dashboard, Productos, Usuarios, Blogs y Pedidos.
+//   - Vendedor: solo Productos (lista y detalle) y Pedidos (lista y detalle).
 export default function AdminLayout({ children }) {
-  const usuario = getUsuarioActivo();
+  const { esAdmin } = useAuth();
 
-  // Sin sesión: va al login. Con sesión pero sin permiso (Cliente): va al inicio.
-  if (!usuario) {
-    return <Navigate to="/login" replace />;
-  }
-  if (!puedeAdministrar(usuario)) {
-    return <Navigate to="/" replace />;
-  }
-  
+  const claseActiva = ({ isActive }) => (isActive ? 'active' : '');
+
   return (
     <div className="admin-layout">
       <aside className="admin-sidebar">
         <h4>Panel Admin</h4>
         <ul className="admin-menu">
+          {esAdmin && (
+            <li>
+              <NavLink to="/admin" end className={claseActiva}>
+                Dashboard
+              </NavLink>
+            </li>
+          )}
           <li>
-            <NavLink
-              to="/admin"
-              end
-              className={({ isActive }) => (isActive ? 'active' : '')}
-            >
-              Dashboard
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/admin/productos"
-              className={({ isActive }) => (isActive ? 'active' : '')}
-            >
+            <NavLink to="/admin/productos" className={claseActiva}>
               Productos
             </NavLink>
           </li>
+          {esAdmin && (
+            <li>
+              <NavLink to="/admin/usuarios" className={claseActiva}>
+                Usuarios
+              </NavLink>
+            </li>
+          )}
+          {esAdmin && (
+            <li>
+              <NavLink to="/admin/blogs" className={claseActiva}>
+                Blogs
+              </NavLink>
+            </li>
+          )}
           <li>
-            <NavLink
-              to="/admin/usuarios"
-              className={({ isActive }) => (isActive ? 'active' : '')}
-            >
-              Usuarios
+            <NavLink to="/admin/pedidos" className={claseActiva}>
+              Pedidos
             </NavLink>
           </li>
         </ul>

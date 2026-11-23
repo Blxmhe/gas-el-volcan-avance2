@@ -1,34 +1,43 @@
 // src/services/usuariosService.js
-// Servicio de usuarios para los formularios del administrador.
-// Se apoya en src/data/usuarios.js (lectura y registro con localStorage)
-// y agrega lo que falta: buscar un usuario y actualizarlo.
+// Llamadas de usuarios al backend (/api/v1/usuarios). Solo el Administrador puede usarlas.
+// Los usuarios se identifican por su RUN sin puntos ni guion (ej: 190110222).
 
-import { obtenerUsuarios, registrarUsuario } from '../data/usuarios'
+import api from './api'
 
-const CLAVE = 'usuarios'
+const RUTA = '/usuarios'
 
-// Se vuelve a exportar para que los formularios lo importen desde un solo lugar
-export { obtenerUsuarios }
-
-export function guardarUsuarios(lista) {
-  localStorage.setItem(CLAVE, JSON.stringify(lista))
+// Arma el cuerpo que espera el backend: los campos opcionales vacíos viajan como null,
+// y si la contraseña viene vacía no se envía (el backend mantiene la actual).
+function aCuerpo(usuario) {
+  const { password, telefono, fechaNacimiento, ...resto } = usuario
+  return {
+    ...resto,
+    telefono: telefono || null,
+    fechaNacimiento: fechaNacimiento || null,
+    ...(password ? { password } : {}),
+  }
 }
 
-export function buscarUsuario(run) {
-  return obtenerUsuarios().find((u) => u.run === run)
+const UsuariosService = {
+  listar() {
+    return api.get(RUTA).then((r) => r.data)
+  },
+
+  obtener(run) {
+    return api.get(`${RUTA}/${encodeURIComponent(run)}`).then((r) => r.data)
+  },
+
+  crear(usuario) {
+    return api.post(RUTA, aCuerpo(usuario)).then((r) => r.data)
+  },
+
+  actualizar(run, usuario) {
+    return api.put(`${RUTA}/${encodeURIComponent(run)}`, aCuerpo(usuario)).then((r) => r.data)
+  },
+
+  eliminar(run) {
+    return api.delete(`${RUTA}/${encodeURIComponent(run)}`)
+  },
 }
 
-// Devuelve true si se guardó, o false si ya existía el correo o el RUN
-export function agregarUsuario(usuario) {
-  return registrarUsuario(usuario)
-}
-
-// Si la contraseña viene vacía, se mantiene la que ya tenía el usuario.
-// Los campos que el formulario no edita (como el teléfono) se conservan.
-export function actualizarUsuario(run, cambios) {
-  const { password, ...resto } = cambios
-  const lista = obtenerUsuarios().map((u) =>
-    u.run === run ? { ...u, ...resto, run, ...(password ? { password } : {}) } : u,
-  )
-  guardarUsuarios(lista)
-}
+export default UsuariosService

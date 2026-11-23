@@ -9,10 +9,8 @@ import { useState } from 'react'
 import { Form, Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { validarProducto } from '../utils/validacionesProducto'
-import { obtenerProductos } from '../services/productosService'
-
-const CATEGORIAS = ['Cilindros de Gas', 'Reguladores', 'Mangueras y Conexiones', 'Accesorios']
-const UNIDADES = ['Unidad', 'Kit']
+import { useProductos } from '../context/useProductos'
+import { CATEGORIAS, UNIDADES } from '../data/productos'
 
 const VACIO = {
   codigo: '',
@@ -39,6 +37,8 @@ function aTexto(producto) {
 function ProductoForm({ productoInicial = null, modoEditar = false, onGuardar = () => {} }) {
   const [valores, setValores] = useState(() => (productoInicial ? aTexto(productoInicial) : VACIO))
   const [errores, setErrores] = useState({})
+  // Lista actual del catálogo: sirve para revisar que el código no esté repetido
+  const { productos } = useProductos()
 
   const manejarCambio = (evento) => {
     const { name, value } = evento.target
@@ -50,7 +50,7 @@ function ProductoForm({ productoInicial = null, modoEditar = false, onGuardar = 
   const manejarEnvio = (evento) => {
     evento.preventDefault()
 
-    const erroresEncontrados = validarProducto(valores, obtenerProductos(), modoEditar)
+    const erroresEncontrados = validarProducto(valores, productos, modoEditar)
     setErrores(erroresEncontrados)
 
     if (Object.keys(erroresEncontrados).length > 0) return
@@ -117,7 +117,7 @@ function ProductoForm({ productoInicial = null, modoEditar = false, onGuardar = 
       {campo('precioComercial', 'Precio Comercial', { type: 'number', min: 0, step: 1 })}
       {campo('stock', 'Stock', { type: 'number', min: 0, step: 1 })}
       {campo('stockCritico', 'Stock Crítico', { type: 'number', min: 0, step: 1 })}
-      {campo('imagen', 'Imagen', { type: 'text', placeholder: 'img/nombre-archivo.jpg' })}
+      {campo('imagen', 'Imagen', { type: 'text', placeholder: 'Ej: cilindro-11kg.jpg' })}
 
       <Button variant="primary" type="submit" className="me-2">
         {modoEditar ? 'Guardar cambios' : 'Guardar producto'}
