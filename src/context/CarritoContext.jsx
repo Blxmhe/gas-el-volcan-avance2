@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { CarritoContext } from './useCarrito'
-import { buscarProducto } from '../services/productosService'
+import { useProductos } from './useProductos'
 
 // Lee el carrito guardado en localStorage; si no hay nada, devuelve un arreglo vacío
 function obtenerCarritoGuardado() {
@@ -14,6 +14,8 @@ function obtenerCarritoGuardado() {
 // Envuelve la app y comparte el carrito con todos los componentes de adentro
 export function CarritoProvider({ children }) {
   const [carrito, setCarrito] = useState(obtenerCarritoGuardado)
+  // El stock disponible sale del catálogo que viene del backend
+  const { buscarProducto } = useProductos()
 
   // Cada vez que cambia el carrito, se guarda en localStorage
   useEffect(() => {
@@ -90,9 +92,21 @@ export function CarritoProvider({ children }) {
     return null
   }
 
+  // Deja el carrito vacío (se usa cuando el pedido se creó con éxito)
+  function vaciarCarrito() {
+    setCarrito([])
+  }
+
   return (
     <CarritoContext
-      value={{ carrito, totalUnidades, agregarAlCarrito, quitarDelCarrito, actualizarCantidad }}
+      value={{
+        carrito,
+        totalUnidades,
+        agregarAlCarrito,
+        quitarDelCarrito,
+        actualizarCantidad,
+        vaciarCarrito,
+      }}
     >
       {children}
     </CarritoContext>

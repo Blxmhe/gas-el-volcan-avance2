@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { registrarUsuario } from '../data/usuarios';
+import AuthService from '../services/authService';
+import { mensajeDeError } from '../services/api';
 import { validarRUN } from '../utils/validacionRun';
 
 // Comunas reales de cobertura para Ñuble
@@ -36,7 +37,7 @@ export default function Registro() {
 
   const dominiosValidos = ['@duoc.cl', '@profesor.duoc.cl', '@gmail.com'];
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setMensajeExito('');
@@ -78,30 +79,31 @@ export default function Registro() {
       return;
     }
 
-    // 5. Armar objeto usuario y guardar en usuarios.js
+    // 5. Armar el objeto y enviarlo al backend (POST /api/v1/auth/register).
+    // El backend siempre crea al usuario como "Cliente" y cifra la contraseña.
+    // Los campos opcionales vacíos se envían como null.
     const nuevoUsuario = {
       run: runLimpio,
       nombre: nombre.trim(),
       apellidos: apellidos.trim(),
       correo: correoMinuscula,
       password: password,
-      telefono: telefono.trim() || 'No especificado',
-      fechaNacimiento: fechaNacimiento || 'No especificada',
-      tipoUsuario: 'Cliente',
+      telefono: telefono.trim() || null,
+      fechaNacimiento: fechaNacimiento || null,
       region: region,
       comuna: comuna,
       direccion: direccion.trim()
     };
 
-    const exito = registrarUsuario(nuevoUsuario);
-
-    if (exito) {
+    try {
+      await AuthService.registrar(nuevoUsuario);
       setMensajeExito('¡Registro exitoso! Redirigiendo al inicio de sesión...');
       setTimeout(() => {
         navigate('/login');
       }, 1500);
-    } else {
-      setError('Este RUN o correo ya se encuentra registrado.');
+    } catch (e) {
+      // 409 = el RUN o el correo ya existen; otros errores muestran el mensaje del backend
+      setError(e.response?.status === 409 ? 'Este RUN o correo ya se encuentra registrado.' : mensajeDeError(e));
     }
   };
 

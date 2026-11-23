@@ -1,53 +1,32 @@
 // src/services/productosService.js
-// Lee y guarda los productos en localStorage.
-// Si todavía no hay cambios guardados, parte con el catálogo de src/data/productos.js
+// Llamadas de productos al backend (/api/v1/productos).
+// Leer es público; crear, editar y eliminar exigen ser Administrador.
+// Los productos se identifican por su código (ej: CL002).
 
-import { productos as productosIniciales } from '../data/productos'
+import api from './api'
 
-const CLAVE = 'productos'
+const RUTA = '/productos'
 
-export function obtenerProductos() {
-  try {
-    const guardado = localStorage.getItem(CLAVE)
-    if (guardado) {
-      const lista = JSON.parse(guardado)
-      if (Array.isArray(lista) && lista.length > 0) return lista
-    }
-  } catch {
-    // Si localStorage falla, se usa el catálogo inicial
-  }
-  return productosIniciales
+const ProductosService = {
+  listar() {
+    return api.get(RUTA).then((r) => r.data)
+  },
+
+  obtener(codigo) {
+    return api.get(`${RUTA}/${encodeURIComponent(codigo)}`).then((r) => r.data)
+  },
+
+  crear(producto) {
+    return api.post(RUTA, producto).then((r) => r.data)
+  },
+
+  actualizar(codigo, producto) {
+    return api.put(`${RUTA}/${encodeURIComponent(codigo)}`, producto).then((r) => r.data)
+  },
+
+  eliminar(codigo) {
+    return api.delete(`${RUTA}/${encodeURIComponent(codigo)}`)
+  },
 }
 
-export function guardarProductos(lista) {
-  localStorage.setItem(CLAVE, JSON.stringify(lista))
-}
-
-export function buscarProducto(codigo) {
-  return obtenerProductos().find((p) => p.codigo === codigo)
-}
-
-export function agregarProducto(producto) {
-  const lista = [...obtenerProductos(), producto]
-  guardarProductos(lista)
-}
-
-export function actualizarProducto(codigo, cambios) {
-  const lista = obtenerProductos().map((p) =>
-    p.codigo === codigo ? { ...p, ...cambios, codigo } : p,
-  )
-  guardarProductos(lista)
-}
-
-
-// Productos de la misma categoría (para la sección "Relacionados" del detalle)
-export function obtenerRelacionados(producto) {
-  return obtenerProductos().filter(
-    (p) => p.categoria === producto.categoria && p.codigo !== producto.codigo,
-  )
-}
-
-// Los primeros 4 productos (para el Home)
-export function obtenerDestacados() {
-  return obtenerProductos().slice(0, 4)
-}
+export default ProductosService

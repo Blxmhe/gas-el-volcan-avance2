@@ -1,7 +1,7 @@
 import { Container, Nav, Navbar } from 'react-bootstrap'
-import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
+import { useAuth } from '../context/useAuth'
 import { useCarrito } from '../context/useCarrito'
-import { getUsuarioActivo, logout, puedeAdministrar } from '../data/usuarios'
 import logo from '../assets/logo.jpg'
 import './Menu.css'
 
@@ -15,15 +15,13 @@ const enlacesPrincipales = [
 
 function Menu() {
   const { totalUnidades } = useCarrito()
-  // Hace que el Menú se vuelva a dibujar cada vez que cambia la página
-  useLocation()
   const navigate = useNavigate()
 
-  // Se lee en cada render: null si nadie ha iniciado sesión
-  const usuario = getUsuarioActivo()
+  // usuario es null si nadie ha iniciado sesión; el Menú se redibuja solo cuando cambia la sesión
+  const { usuario, puedeAdministrar, esCliente, logout } = useAuth()
 
-  function cerrarSesion() {
-    logout()
+  async function cerrarSesion() {
+    await logout()
     navigate('/')
   }
 
@@ -49,9 +47,14 @@ function Menu() {
           <Nav className="acciones-usuario">
             {usuario ? (
               <>
-                {puedeAdministrar(usuario) && (
+                {puedeAdministrar && (
                   <Nav.Link as={NavLink} to="/admin" className="btn-admin">
                     Ir a Admin
+                  </Nav.Link>
+                )}
+                {esCliente && (
+                  <Nav.Link as={NavLink} to="/mis-pedidos" className="btn-admin">
+                    Mis pedidos
                   </Nav.Link>
                 )}
                 <Nav.Link as="span" className="saludo-usuario">

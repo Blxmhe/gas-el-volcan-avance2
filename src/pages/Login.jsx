@@ -1,10 +1,16 @@
 import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { loginUsuario } from '../data/usuarios';
+import { useLocation, useNavigate, Link } from 'react-router-dom';
+import { useAuth } from '../context/useAuth';
+import { mensajeDeError } from '../services/api';
 import logo from '../assets/logo.jpg';
 
 export default function Login() {
   const navigate = useNavigate();
+  const ubicacion = useLocation();
+  const { login } = useAuth();
+
+  // Si lo mandaron al login desde una página protegida, vuelve ahí después de entrar
+  const destino = ubicacion.state?.from?.pathname || '/';
 
   // Estados del formulario
   const [correo, setCorreo] = useState('');
@@ -15,7 +21,7 @@ export default function Login() {
   // Dominios permitidos según la pauta
   const dominiosValidos = ['@duoc.cl', '@profesor.duoc.cl', '@gmail.com'];
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setMensajeExito('');
@@ -40,18 +46,18 @@ export default function Login() {
       return;
     }
 
-    // 4. Intentar iniciar sesión contra nuestro archivo usuarios.js
-    const usuario = loginUsuario(correoMinuscula, password);
-
-    if (usuario) {
+    // 4. Iniciar sesión en el backend (POST /api/v1/auth/login)
+    try {
+      const usuario = await login(correoMinuscula, password);
       setMensajeExito(`¡Bienvenido ${usuario.nombre}! (${usuario.tipoUsuario})`);
-      
-      // Redirigir al home después de 1.5 segundos
+
+      // Redirigir después de 1.5 segundos
       setTimeout(() => {
-        navigate('/');
+        navigate(destino, { replace: true });
       }, 1500);
-    } else {
-      setError('Correo o contraseña incorrectos.');
+    } catch (e) {
+      // 401 = credenciales incorrectas; otros errores (sin conexión, etc.) muestran su propio mensaje
+      setError(e.response?.status === 401 ? 'Correo o contraseña incorrectos.' : mensajeDeError(e));
     }
   };
 

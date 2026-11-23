@@ -5,12 +5,12 @@
 //   modoEditar: true al editar (el RUN queda bloqueado y la contraseña es opcional)
 //   onGuardar: función que recibe el usuario ya validado
 //   validarRun: función opcional para validar el RUN (por defecto, revisión de formato)
+//   usuariosExistentes: lista de usuarios actuales (viene del backend) para revisar RUN y correo repetidos
 
 import { useState } from 'react'
 import { Form, Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { validarUsuario } from '../utils/validacionesUsuario'
-import { obtenerUsuarios } from '../services/usuariosService'
 import { comunasPorRegion, regiones } from '../data/regionesComunas'
 
 const TIPOS_USUARIO = ['Administrador', 'Cliente', 'Vendedor']
@@ -44,6 +44,7 @@ function UsuarioForm({
   modoEditar = false,
   onGuardar = () => {},
   validarRun,
+  usuariosExistentes = [],
 }) {
   const [valores, setValores] = useState(() => (usuarioInicial ? aTexto(usuarioInicial) : VACIO))
   const [errores, setErrores] = useState({})
@@ -74,7 +75,7 @@ function UsuarioForm({
   const manejarEnvio = (evento) => {
     evento.preventDefault()
 
-    const erroresEncontrados = validarUsuario(valores, obtenerUsuarios(), modoEditar, validarRun)
+    const erroresEncontrados = validarUsuario(valores, usuariosExistentes, modoEditar, validarRun)
     setErrores(erroresEncontrados)
 
     if (Object.keys(erroresEncontrados).length > 0) return

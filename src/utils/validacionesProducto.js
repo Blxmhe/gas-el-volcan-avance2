@@ -39,12 +39,12 @@ export function validarProducto(datos, productosExistentes = [], modoEditar = fa
     errores.unidad = 'Debes seleccionar una unidad.'
   }
 
-  // Precios: número de 0 o más
-  if (!esNumeroValido(datos.precioResidencial)) {
-    errores.precioResidencial = 'Ingresa un precio residencial válido (0 o mayor).'
+  // Precios: pesos chilenos enteros (el backend guarda los precios sin decimales), 0 o más
+  if (!esEnteroValido(datos.precioResidencial)) {
+    errores.precioResidencial = 'Ingresa un precio residencial válido (entero, 0 o mayor).'
   }
-  if (!esNumeroValido(datos.precioComercial)) {
-    errores.precioComercial = 'Ingresa un precio comercial válido (0 o mayor).'
+  if (!esEnteroValido(datos.precioComercial)) {
+    errores.precioComercial = 'Ingresa un precio comercial válido (entero, 0 o mayor).'
   }
 
   // Stock: entero de 0 o más
@@ -59,13 +59,6 @@ export function validarProducto(datos, productosExistentes = [], modoEditar = fa
   }
 
   return errores
-}
-
-// Número (puede tener decimales) mayor o igual a 0
-function esNumeroValido(valor) {
-  if (valor === '' || valor == null) return false
-  const numero = Number(valor)
-  return !Number.isNaN(numero) && numero >= 0
 }
 
 // Número entero mayor o igual a 0
